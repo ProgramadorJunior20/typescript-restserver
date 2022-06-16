@@ -3,6 +3,7 @@ import userRoutes from '../routes/usuario.routes';
 
 import cors from 'cors';
 import morgan from 'morgan';
+import db from '../database/connection';
 
 
 
@@ -20,11 +21,22 @@ class Server {
 
 
         // Metodos Iniciales
+        this.dbConnection();
         this.middlewares();
         this.routes();
     }
 
-    //TODO: conectar base de datos
+    async dbConnection() {
+
+        try {
+            
+            await db.authenticate();
+            console.log("Database omline");
+
+        } catch (err) {
+            throw new Error(`${ err }`);
+        }
+    }
 
     middlewares() {
 
